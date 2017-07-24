@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+	function send_go(f) {
+		if(f.id.value==""){
+			alert("id를 입력하세요");
+			f.id.focus();
+			return;
+		}
+		if(f.pw.value==""){
+			alert("pw를 입력하세요");
+			f.pw.focus();
+			return;
+		}
+		f.action="/0404_servlet/Ex07";
+		f.submit();
+	}
+</script>
+</head>
+<body>
+	<form>
+		<p> ID : <input type="text" name="id" /> </p>
+		<p> PW : <input type="password" name="pw" /> </p>
+		<input type="button" value="전송" onclick="send_go(this.form)"/>
+		<input type="reset" value="취소" />
+	</form>
+</body>
+</html>

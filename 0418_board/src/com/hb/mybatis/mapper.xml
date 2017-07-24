@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hb.mybatis.mapper">
+    <!-- 전체게시물의 수 -->
+	<select id="totalCount" resultType="int">
+		select count(*) from board 
+	</select>
+    <!-- 리스트 -->
+	<select id="list" resultType="com.hb.mybatis.VO" parameterType="Map">
+		select * from (
+		      select rownum r_num, a.* from (
+		         select * from board order by groups desc, lev asc
+		      ) a
+		) where r_num between #{begin} and #{end}
+	</select>
+	<!-- 원글 삽입 -->
+	<insert id="insert" parameterType="com.hb.mybatis.VO">
+		insert into board values(board_seq.nextval,
+		#{writer},#{title},#{content},#{pwd},0,
+		board_group.nextval,0,0,'bbs',sysdate,#{filename},#{ip})
+	</insert>
+	
+	<!-- 상세보기 -->
+	<select id="onelist" parameterType="String" resultType="com.hb.mybatis.VO">
+		select * from board where seq = #{seq}
+	</select>
+	
+	<!-- 댓글 삽입 전 반드시 lev 업데이트 -->
+	<!-- 원글과 같은 그룹이면서, 레벨이 같거나 크면 증가 시키자 -->
+	<update id="up_lev" parameterType="Map">
+		update board set lev = lev+1 where groups=#{groups} and lev >= #{lev}
+	</update>
+	
+	<!-- 댓글 삽입 -->
+	<insert id="reInsert" parameterType="com.hb.mybatis.VO">
+		insert into board values(board_seq.nextval,
+		#{writer},#{title},#{content},#{pwd},0,
+		#{groups},#{step},#{lev},'bbs',sysdate,#{filename},#{ip})
+	</insert>
+	
+	<update id="modify" parameterType="com.hb.mybatis.VO">
+		update board set title=#{title}, writer=#{writer}, content=#{content},
+		filename=#{filename} where seq = #{seq}
+	</update>
+	
+	<!--원글 히트 업데이트  -->
+	<update id="hit" parameterType="com.hb.mybatis.VO">
+		update board set hit = #{hit} where seq = #{seq}
+	</update>
+	
+	<!-- 원글 삭제 : 댓글이 있으면 댓글 먼저 삭제 해야 됨  -->
+	<delete id="delete" parameterType="String">
+		delete from board where seq = #{seq}
+	</delete>
+</mapper>
+
+
+
+
+
+
+
+
+
+
+
+
+
+

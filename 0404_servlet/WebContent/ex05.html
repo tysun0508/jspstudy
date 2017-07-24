@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>성적입력</title>
+<style type="text/css">
+	fieldset {width: 300px}
+</style>
+<script type="text/javascript">
+	function score_go() {
+		/* 유효성 검사 */
+		if(document.f.name.value==""){
+			alert("이름 입력하세요");
+			document.f.name.focus();
+			return;
+		}
+		if(document.f.kor.value==""){
+			alert("국어점수 입력하세요");
+			document.f.kor.focus();
+			return;
+		}
+		if(document.f.eng.value==""){
+			alert("영어점수 입력하세요");
+			document.f.eng.focus();
+			return;
+		}
+		if(document.f.math.value==""){
+			alert("수학점수 입력하세요");
+			document.f.math.focus();
+			return;
+		}
+		
+		
+	// form 내용을 원하는 곳으로 보낸다.
+	// 서블릿으로 보낼때는 "/프로젝트이름/서블릿이름"
+		document.f.action="/0404_servlet/Ex05";
+		document.f.submit();
+	}
+
+</script>
+</head>
+<body>
+	<form name="f">
+		<fieldset>
+			<legend><h2>성적입력</h2></legend>
+			<p>이름 : <input type="text" name="name" /></p>
+			<p>국어 : <input type="number" name="kor" /></p>
+			<p>영어 : <input type="number" name="eng" /></p>
+			<p>수학 : <input type="number" name="math" /></p>
+			
+			      
+			<input type="button" value="결과보기" onclick="score_go()" /> 
+			<input type="reset" value="취소" />     
+		</fieldset>
+	</form>
+</body>
+</html>
